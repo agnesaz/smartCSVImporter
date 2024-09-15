@@ -9,6 +9,7 @@ The **Smart CSV Importer** is a NestJS-based application that imports a large CS
 ### 1. Import CSV
 POST->  /api/v1/csv-import/upload/:vendorId -> the endpoint that uploads a CSV file and processes it for a specified vendor. It first checks and saves the vendor in db with given json data, then parses and processes the CSV file associated with that vendor.
  Vendor data saved in db (example):
+        ```json
         {
         "_id": "vendor123",
         "name": "Acme Medical Supplies",
@@ -17,6 +18,7 @@ POST->  /api/v1/csv-import/upload/:vendorId -> the endpoint that uploads a CSV f
         }
 
  Manufacturer data saved in db (example):
+       ```json
         {   
         "_id": "manufacturer123",
         "manufacturerId": "191",
@@ -24,6 +26,7 @@ POST->  /api/v1/csv-import/upload/:vendorId -> the endpoint that uploads a CSV f
         }
 
  Product data saved in db (example): (from 100k+ rows to 13k products saved in db)
+        ```json
         {
         "_id": "product123",
         "productId": "productId",
