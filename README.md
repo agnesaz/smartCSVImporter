@@ -2,14 +2,46 @@
 
 ## Description
 
-The **Smart CSV Importer** is a NestJS-based application that imports a large CSV file, converts the data into JSON format, and saves it to a MongoDB database. This project is designed to handle large datasets efficiently, ensuring proper memory management and handling product variants correctly.
+The **Smart CSV Importer** is a NestJS-based application that imports a large CSV file, converts the data into JSON format, and saves it to a MongoDB database. Also generates project description based on product name, description and category using OpenAI.
 
-It performs the following key operations:
-- Imports and parses large CSV files.
-- Converts CSV rows into products with variants.
-- Inserts, updates, or deletes products from the MongoDB database.
-- Enhances product descriptions using an external AI (e.g., GPT-4) for specific fields.
-- Handles scheduled tasks for automated imports.
+
+## Endpoints
+### 1. Import CSV
+POST->  /api/v1/csv-import/upload/:vendorId -> the endpoint that uploads a CSV file and processes it for a specified vendor. It first checks and saves the vendor in db with given json data, then parses and processes the CSV file associated with that vendor.
+ Vendor data saved in db (example):
+        {
+        "_id": "vendor123",
+        "name": "Acme Medical Supplies",
+        "createdAt": "2024-09-15T10:00:00.000Z",
+        "updatedAt": "2024-09-15T10:00:00.000Z"
+        }
+
+ Manufacturer data saved in db (example):
+        {   
+        "_id": "manufacturer123",
+        "manufacturerId": "191",
+        "name": "Acme Medical Supplies",
+        }
+
+ Product data saved in db (example): (from 100k+ rows to 13k products saved in db)
+        {
+        "_id": "product123",
+        "productId": "productId",
+        "productName": "Acme Medical Supplies", 
+        "description": "This is a medical supply product",
+        "categoryName": "Medical Supplies",
+        "vendorId": "vendor123",
+        "manufacturerId": "manufacturer123",
+        "variants":[{variants}],
+        "isDeleted": false
+        }
+
+### 2.  Cron job that runs daily at midnight.
+    At task schleduler file there is a cron job that will be called daily at midnight.
+    It fetches 10 products
+    Creating a model of gpt to improve generating description.
+    Updates products with new descriptions, if any.
+
 
 ## Features
 
@@ -54,7 +86,7 @@ npm install
 ### 3. Environment Variables
 Create a .env file in the root directory with the following configuration:
 
-OPEN_API_KEY=your-openai-api-key 
+ OPEN_API_KEY=your-openai-api-key 
 
 ### 5. Run the Project
 To run the project, use the following command:
