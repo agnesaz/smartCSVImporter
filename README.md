@@ -7,37 +7,40 @@ The **Smart CSV Importer** is a NestJS-based application that imports a large CS
 
 ## Endpoints
 ### 1. Import CSV
-POST->  /api/v1/csv-import/upload/:vendorId -> the endpoint that uploads a CSV file and processes it for a specified vendor. It first checks and saves the vendor in db with given json data, then parses and processes the CSV file associated with that vendor.
- Vendor data saved in db (example):
-        ```json
-        {
-        "_id": "vendor123",
-        "name": "Acme Medical Supplies",
-        "createdAt": "2024-09-15T10:00:00.000Z",
-        "updatedAt": "2024-09-15T10:00:00.000Z"
-        }
+**POST** `/api/v1/csv-import/upload/:vendorId`
 
- Manufacturer data saved in db (example):
-       ```json
+This endpoint uploads a CSV file and processes it for a specified vendor. It first checks and saves the vendor in the database, then parses and processes the CSV file associated with that vendor.
+
+- **Vendor data saved in DB (example):**
+  ```json
+  {
+    "_id": "vendor123",
+    "name": "Acme Medical Supplies",
+    "createdAt": "2024-09-15T10:00:00.000Z",
+    "updatedAt": "2024-09-15T10:00:00.000Z"
+  }
+
+- **Manufacturer data saved in db (example):**
+    ```json
         {   
         "_id": "manufacturer123",
         "manufacturerId": "191",
         "name": "Acme Medical Supplies",
         }
 
- Product data saved in db (example): (from 100k+ rows to 13k products saved in db)
-        ```json
-        {
-        "_id": "product123",
-        "productId": "productId",
-        "productName": "Acme Medical Supplies", 
-        "description": "This is a medical supply product",
-        "categoryName": "Medical Supplies",
-        "vendorId": "vendor123",
-        "manufacturerId": "manufacturer123",
-        "variants":[{variants}],
-        "isDeleted": false
-        }
+- **Product data saved in db (example): (from 100k+ rows to 13k products saved in db):**
+    ```json
+             {
+            "_id": "product123",
+            "productId": "productId",
+            "productName": "Acme Medical Supplies", 
+            "description": "This is a medical supply product",
+            "categoryName": "Medical Supplies",
+            "vendorId": "vendor123",
+            "manufacturerId": "manufacturer123",
+            "variants":[{variants}],
+            "isDeleted": false
+            }
 
 ### 2.  Cron job that runs daily at midnight.
     At task schleduler file there is a cron job that will be called daily at midnight.
